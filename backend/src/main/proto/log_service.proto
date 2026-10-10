@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package logstream;
+
+option java_package = "com.axlero.logstream.grpc";
+option java_multiple_files = true;
+
+// A single application log line.
+message LogMessage {
+  int64 timestamp = 1;      // epoch millis
+  string level = 2;         // INFO / WARN / ERROR
+  string service = 3;       // originating microservice name
+  string message = 4;       // free-text log message
+  int32 response_time = 5;  // response time in ms, if applicable
+}
+
+// Returned once the client finishes streaming logs.
+message IngestSummary {
+  int32 count = 1;
+}
+
+// Client-streaming: many logs go up, one summary comes back.
+service LogIngestService {
+  rpc IngestLogs(stream LogMessage) returns (IngestSummary);
+}

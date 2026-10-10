@@ -1,0 +1,7 @@
+node_modules/
+dist/
+backend/target/
+log-index/
+backend/log-index/
+alert-rules.json
+backend/alert-rules.json
